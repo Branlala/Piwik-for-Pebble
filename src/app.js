@@ -8,13 +8,80 @@ var UI = require('ui');
 var Vector2 = require('vector2');
 var ajax = require('ajax');
 
-var myPiwikFQDN = 'stats.techan.fr';
-var myPiwikAuthToken = '067752aeaee170f4c9851f5b50981d25';
-var siteID = '2';
-var url = 'https://'+myPiwikFQDN+
+
+/** Configuration **/
+
+Pebble.addEventListener('ready', function() {
+  console.log('PebbleKit JS ready!');
+});
+
+Pebble.addEventListener('showConfiguration', function() {
+  var url = 'https://github.com/Branlala/Piwik-for-Pebble/tree/master/config/index.html';
+  console.log('Showing configuration page: ' + url);
+
+  Pebble.openURL(url);
+});
+
+Pebble.addEventListener('webviewclosed', function(e) {
+  var configData = JSON.parse(decodeURIComponent(e.response));
+  console.log('Configuration page returned: ' + JSON.stringify(configData));
+
+  //var myPiwikFQDN = configData['PIWIK_URL'];
+
+  /*var dict = {};
+  dict.piwik_url = configData.piwik_url;
+  dict.piwik_auth_token = configData.piwik_auth_token;
+  dict.piwik_site_id = configData.piwik_site_id;*/
+  
+  var dict = {
+  'PIWIK_URL': configData.background_color,
+  'PIWIK_AUTH_TOKEN': configData.foreground_color,
+  'PIWIK_SITE_ID': configData.second_ticks
+};
+  
+  //dict['KEY_HIGH_CONTRAST'] = configData['KEY_HIGH_CONTRAST'];
+
+  // Send to watchapp
+  Pebble.sendAppMessage(dict, function() {
+    console.log('Send successful: ' + JSON.stringify(dict));
+  }, function() {
+    console.log('Send failed!');
+  });
+});
+
+// Get AppMessage events
+Pebble.addEventListener('appmessage', function(e) {
+  // Get the dictionary from the message
+  var dict = e.payload;
+
+  console.log('Got message: ' + JSON.stringify(dict));
+});
+
+
+if(dict['PIWIK_URL']) {
+  // The AppKeyRequestData key is present, read the value
+  var piwik_url = dict['PIWIK_URL'];
+}
+
+if(dict['PIWIK_AUTH_TOKEN']) {
+  // The AppKeyRequestData key is present, read the value
+  var myPiwikAuthToken = dict['PIWIK_AUTH_TOKEN'];
+}
+
+if(dict['PIWIK_SITE_ID']) {
+  // The AppKeyRequestData key is present, read the value
+  var siteID = dict['PIWIK_SITE_ID'];
+}
+
+/** Code **/
+
+
+//var myPiwikAuthToken = '067752aeaee170f4c9851f5b50981d25';
+//var siteID = '2';
+var url = 'https://'+piwik_url+
       '/?module=API&method=Referrers.getKeywords&idSite=' + siteID + '&date=yesterday&period=day&format=xml&filter_limit=10&format=JSON&token_auth='+
       myPiwikAuthToken;
-var url = 'https://'+myPiwikFQDN+
+var url = 'https://'+piwik_url+
       '/?module=API&method=VisitsSummary.get&idSite=' + siteID + '&date=today&period=day&format=xml&filter_limit=10&format=JSON&token_auth='+
       myPiwikAuthToken;
 

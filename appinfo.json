@@ -3,12 +3,6 @@
     "capabilities": [
         "configurable"
     ],
-    "appKeys": {
-        "PIWIK_URL": 0,
-        "PIWIK_AUTH_TOKEN": 1,
-        "PIWIK_SITE_ID": 2,
-        "KEY_HIGH_CONTRAST": 3
-    },
     "companyName": "raphael.charrat@aldanet.fr",
     "longName": "Piwik for Pebble",
     "projectType": "pebblejs",
