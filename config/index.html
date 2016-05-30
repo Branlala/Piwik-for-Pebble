@@ -42,15 +42,28 @@
     </div>
 
     <div class='item-container'>
-      <div class='item-container-header'>Accessibility</div>
+      <div class='item-container-header'>Piwik Site ID</div>
       <div class='item-container-content'>
         <label class='item'>
-          High Contrast Mode
-          <input id='high_contrast_checkbox' type='checkbox' class='item-toggle'>
+          Site ID
+          <input id='piwik_site_id' type='text' class='' value='1'>
         </label>
       </div>
       <div class='item-container-footer'>
-        This switches the app colors to a higher contrast set that promotes readability in low light.
+        Piwik Site ID.
+      </div>
+    </div>
+
+    <div class='item-container'>
+      <div class='item-container-header'>Piwik Auth token</div>
+      <div class='item-container-content'>
+        <label class='item'>
+          Auth token
+          <input id='piwik_auth' type='text' class='' value='xxxxxxx'>
+        </label>
+      </div>
+      <div class='item-container-footer'>
+        Piwik Auth token.
       </div>
     </div>
 
@@ -62,17 +75,20 @@
   </body>
   <script>
   function getConfigData() {
-    var backgroundColorPicker = document.getElementById('background_color_picker');
-    var highContrastCheckbox = document.getElementById('high_contrast_checkbox');
+    var piwik_url = document.getElementById('piwik_url');
+    var piwik_site_id = document.getElementById('piwik_site_id');
+    var piwik_auth = document.getElementById('piwik_auth');
  
     var options = {
-      'background_color': backgroundColorPicker.value,
-      'high_contrast': highContrastCheckbox.checked
+      'piwik_url': piwik_url.value,
+      'piwik_site_id': piwik_site_id.value,
+      'piwik_auth': piwik_auth.value,
     };
 
     // Save for next launch
-    localStorage['background_color'] = options['background_color'];
-    localStorage['high_contrast'] = options['high_contrast'];
+    localStorage['piwik_url'] = options['piwik_url'];
+    localStorage['piwik_site_id'] = options['piwik_site_id'];
+    localStorage['piwik_auth'] = options['piwik_auth'];
 
     console.log('Got options: ' + JSON.stringify(options));
     return options;
@@ -100,13 +116,20 @@
   });
 
   (function() {
-    var backgroundColorPicker = document.getElementById('background_color_picker');
-    var highContrastCheckbox = document.getElementById('high_contrast_checkbox');
+    var piwik_url = document.getElementById('piwik_url');
+    var piwik_site_id = document.getElementById('piwik_site_id');
+    var piwik_auth = document.getElementById('piwik_auth');
+
 
     // Load any previously saved configuration, if available
-    if(localStorage['high_contrast']) {
-      highContrastCheckbox.checked = JSON.parse(localStorage['high_contrast']);
-      backgroundColorPicker.value = localStorage['background_color'];
+    if(localStorage['piwik_url']) {
+      piwik_url.value = localStorage['piwik_url'];
+    }
+    if(localStorage['piwik_site_id']) {
+      piwik_site_id.value = localStorage['piwik_site_id'];
+    }
+    if(localStorage['piwik_auth']) {
+      piwik_auth.value = localStorage['piwik_auth'];
     }
   })();
   </script>
