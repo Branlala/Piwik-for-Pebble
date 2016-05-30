@@ -6,56 +6,54 @@
 
 var UI = require('ui');
 var Vector2 = require('vector2');
+var ajax = require('ajax');
 
 var myPiwikFQDN = 'stats.techan.fr';
 var myPiwikAuthToken = '067752aeaee170f4c9851f5b50981d25';
-
-var xhrRequest = function (url, type, callback) {
-  var xhr = new XMLHttpRequest();
-  xhr.onload = function () {
-    callback(this.responseText);
-  };
-  xhr.open(type, url);
-  xhr.send();
-};
-
-function piwik_getTop10Keywords() {
-  // Construct URL
-  //var url = 'http://api.openweathermap.org/data/2.5/weather?lat=' +
-  //    pos.coords.latitude + '&lon=' + pos.coords.longitude + '&appid=' + myAPIKey;
-  var url = 'https://'+myPiwikFQDN+
-      '/?module=API&method=Referrers.getKeywords&idSite=2&date=yesterday&period=day&format=xml&filter_limit=10&format=JSON&token_auth='+
+var siteID = '2';
+var url = 'https://'+myPiwikFQDN+
+      '/?module=API&method=Referrers.getKeywords&idSite=' + siteID + '&date=yesterday&period=day&format=xml&filter_limit=10&format=JSON&token_auth='+
+      myPiwikAuthToken;
+var url = 'https://'+myPiwikFQDN+
+      '/?module=API&method=VisitsSummary.get&idSite=' + siteID + '&date=today&period=day&format=xml&filter_limit=10&format=JSON&token_auth='+
       myPiwikAuthToken;
 
-  // Send request to OpenWeatherMap
-  xhrRequest(url, 'GET', 
-    function(responseText) {
-      // responseText contains a JSON object with weather info
-      var json = JSON.parse(responseText);
-
-      // Temperature in Kelvin requires adjustment
-      var keyword = json[0].label;
-      var visits = json[0].nb_uniq_visitors;
-      console.log(keyword + ' : ' + visits);
-
-      // Conditions
-      //var conditions = json.weather[0].main;      
-      //console.log('Conditions are ' + conditions);
-    }      
-  );
-}
 
 var main = new UI.Card({
-  title: 'Pebble.js',
-  icon: 'images/menu_icon.png',
-  subtitle: 'Hello World!',
-  //body: 'Press any button.',
-  body: piwik_getTop10Keywords(),
+  title: ' for Pebble',
+  icon: 'images/icone',
+  body: 'Loading ...',
+  subtitle: 'Today',
   subtitleColor: 'indigo', // Named colors
   bodyColor: '#9a0036' // Hex colors
 });
 
 main.show();
+
+
+ajax({
+	url: url,
+	type: 'json', //we'll say this is a json web service so it will automatically parse the output
+},
+		function(data) {
+      var body = '' ;
+      /*data.forEach(function(item) {
+  			var keyword = item.label;
+        var visits = item.nb_uniq_visitors;
+        body += keyword + ': ' + visits + '\n';
+      });
+      main.body(body);*/
+      
+      main.body(
+        'NB Un.Vi  : ' + data.nb_uniq_visitors + '\n' +
+        'NB Visits : ' + data.nb_visits + '\n' +
+        'NB Actions: ' + data.nb_actions + '\n' +
+        'Avg Time : ' + data.avg_time_on_site + ' (s)\n'
+      );
+		},
+		function (err) {
+			console.log("AJAX Error: " + err); //It is strongly recommend to pass a second parameter in case there is an error
+		});
 
 main.on('click', 'up', function(e) {
   var menu = new UI.Menu({
@@ -94,6 +92,7 @@ main.on('click', 'select', function(e) {
     borderColor: 'celeste',
     borderWidth: 1,
   });
+  
   var textfield = new UI.Text({
     size: new Vector2(140, 60),
     font: 'gothic-24-bold',
