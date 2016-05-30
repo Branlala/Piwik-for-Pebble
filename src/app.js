@@ -16,7 +16,7 @@ Pebble.addEventListener('ready', function() {
 });
 
 Pebble.addEventListener('showConfiguration', function() {
-  var url = 'https://github.com/Branlala/Piwik-for-Pebble/tree/master/config/index.html';
+  var url = 'https://techan.fr/wp-content/piwik-for-pebble/config/index.html';
   console.log('Showing configuration page: ' + url);
 
   Pebble.openURL(url);
@@ -34,9 +34,9 @@ Pebble.addEventListener('webviewclosed', function(e) {
   dict.piwik_site_id = configData.piwik_site_id;*/
   
   var dict = {
-  'PIWIK_URL': configData.background_color,
-  'PIWIK_AUTH_TOKEN': configData.foreground_color,
-  'PIWIK_SITE_ID': configData.second_ticks
+  'PIWIK_URL': configData.piwik_url,
+  'PIWIK_AUTH_TOKEN': configData.piwik_auth,
+  'PIWIK_SITE_ID': configData.piwik_site_id
 };
   
   //dict['KEY_HIGH_CONTRAST'] = configData['KEY_HIGH_CONTRAST'];
@@ -55,10 +55,8 @@ Pebble.addEventListener('appmessage', function(e) {
   var dict = e.payload;
 
   console.log('Got message: ' + JSON.stringify(dict));
-});
-
-
-if(dict['PIWIK_URL']) {
+  
+  if(dict['PIWIK_URL']) {
   // The AppKeyRequestData key is present, read the value
   var piwik_url = dict['PIWIK_URL'];
 }
@@ -72,6 +70,8 @@ if(dict['PIWIK_SITE_ID']) {
   // The AppKeyRequestData key is present, read the value
   var siteID = dict['PIWIK_SITE_ID'];
 }
+});
+
 
 /** Code **/
 
