@@ -89,6 +89,7 @@
     localStorage['piwik_url'] = options['piwik_url'];
     localStorage['piwik_site_id'] = options['piwik_site_id'];
     localStorage['piwik_auth'] = options['piwik_auth'];
+    localStorage['p4p_version'] = 'v0.1';
 
     console.log('Got options: ' + JSON.stringify(options));
     return options;
@@ -122,15 +123,17 @@
 
 
     // Load any previously saved configuration, if available
-    if(localStorage['piwik_url']) {
-      piwik_url.value = localStorage['piwik_url'];
-    }
-    if(localStorage['piwik_site_id']) {
-      piwik_site_id.value = localStorage['piwik_site_id'];
-    }
-    if(localStorage['piwik_auth']) {
-      piwik_auth.value = localStorage['piwik_auth'];
-    }
+	if(localStorage['p4p_version']) {
+	    if(localStorage['piwik_url']) {
+	      piwik_url.value = localStorage['piwik_url'];
+	    }
+	    if(localStorage['piwik_site_id']) {
+	      piwik_site_id.value = localStorage['piwik_site_id'];
+	    }
+	    if(localStorage['piwik_auth']) {
+	      piwik_auth.value = localStorage['piwik_auth'];
+	    }
+	}
   })();
   </script>
 </html>
