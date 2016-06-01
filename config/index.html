@@ -97,14 +97,14 @@
       'piwik_url': piwik_url.value,
       'piwik_site_id': piwik_site_id.value,
       'piwik_auth': piwik_auth.value,
-      'p4p_version' : $_GET(appversion)
+      'p4p_version' : $_GET('appversion')
     };
 
     // Save for next launch
     localStorage['piwik_url'] = options['piwik_url'];
     localStorage['piwik_site_id'] = options['piwik_site_id'];
     localStorage['piwik_auth'] = options['piwik_auth'];
-    localStorage['p4p_version'] = $_GET(appversion);
+    localStorage['p4p_version'] = $_GET('appversion');
 
     console.log('Got options: ' + JSON.stringify(options));
     return options;
@@ -135,7 +135,7 @@
     var piwik_url = document.getElementById('piwik_url');
     var piwik_site_id = document.getElementById('piwik_site_id');
     var piwik_auth = document.getElementById('piwik_auth');
-    var p4p_version = $_GET(appversion);
+    var p4p_version = $_GET('appversion');
 
 
     // Load any previously saved configuration, if available
