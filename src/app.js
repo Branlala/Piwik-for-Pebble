@@ -7,7 +7,7 @@
 var UI = require('ui');
 var Vector2 = require('vector2');
 var ajax = require('ajax');
-
+var Settings = require('settings');
 
 /** Configuration **/
 
@@ -55,35 +55,38 @@ Pebble.addEventListener('appmessage', function(e) {
   var dict = e.payload;
 
   console.log('Got message: ' + JSON.stringify(dict));
-  
-  if(dict['PIWIK_URL']) {
-  // The AppKeyRequestData key is present, read the value
-  var piwik_url = dict['PIWIK_URL'];
-}
-
-if(dict['PIWIK_AUTH_TOKEN']) {
-  // The AppKeyRequestData key is present, read the value
-  var myPiwikAuthToken = dict['PIWIK_AUTH_TOKEN'];
-}
-
-if(dict['PIWIK_SITE_ID']) {
-  // The AppKeyRequestData key is present, read the value
-  var siteID = dict['PIWIK_SITE_ID'];
-}
 });
 
+/*
+    // Load any previously saved configuration, if available
+    if(localStorage['piwik_url']) {
+      piwik_url.value = localStorage['piwik_url'];
+    }
+    if(localStorage['piwik_site_id']) {
+      piwik_site_id.value = localStorage['piwik_site_id'];
+    }
+    if(localStorage['piwik_auth']) {
+      piwik_auth.value = localStorage['piwik_auth'];
+    }
+*/
 
 /** Code **/
 
+var piwik_url = Settings.option('piwik_url');
+console.log(piwik_url);
+var piwik_site_id = Settings.option('piwik_site_id');
+console.log(piwik_site_id);
+var piwik_auth = Settings.option('piwik_auth');
+console.log(piwik_auth);
 
 //var myPiwikAuthToken = '067752aeaee170f4c9851f5b50981d25';
 //var siteID = '2';
 var url = 'https://'+piwik_url+
-      '/?module=API&method=Referrers.getKeywords&idSite=' + siteID + '&date=yesterday&period=day&format=xml&filter_limit=10&format=JSON&token_auth='+
-      myPiwikAuthToken;
+      '/?module=API&method=Referrers.getKeywords&idSite=' + piwik_site_id + '&date=yesterday&period=day&format=xml&filter_limit=10&format=JSON&token_auth='+
+      piwik_auth;
 var url = 'https://'+piwik_url+
-      '/?module=API&method=VisitsSummary.get&idSite=' + siteID + '&date=today&period=day&format=xml&filter_limit=10&format=JSON&token_auth='+
-      myPiwikAuthToken;
+      '/?module=API&method=VisitsSummary.get&idSite=' + piwik_site_id + '&date=today&period=day&format=xml&filter_limit=10&format=JSON&token_auth='+
+      piwik_auth;
 
 
 var main = new UI.Card({
