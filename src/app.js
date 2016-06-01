@@ -15,60 +15,23 @@ Pebble.addEventListener('ready', function() {
   console.log('PebbleKit JS ready!');
 });
 
-Pebble.addEventListener('showConfiguration', function() {
-  var url = 'https://techan.fr/wp-content/piwik-for-pebble/config/index.html';
-  console.log('Showing configuration page: ' + url);
 
-  Pebble.openURL(url);
-});
+// Set a configurable with just the close callback
+Settings.config(
+  { url: 'https://techan.fr/wp-content/piwik-for-pebble/config/index.html' },
+  function(e) {
+    console.log('closed configurable');
 
-Pebble.addEventListener('webviewclosed', function(e) {
-  var configData = JSON.parse(decodeURIComponent(e.response));
-  console.log('Configuration page returned: ' + JSON.stringify(configData));
+    // Show the parsed response
+    console.log(JSON.stringify(e.options));
 
-  //var myPiwikFQDN = configData['PIWIK_URL'];
-
-  /*var dict = {};
-  dict.piwik_url = configData.piwik_url;
-  dict.piwik_auth_token = configData.piwik_auth_token;
-  dict.piwik_site_id = configData.piwik_site_id;*/
-  
-  var dict = {
-  'PIWIK_URL': configData.piwik_url,
-  'PIWIK_AUTH_TOKEN': configData.piwik_auth,
-  'PIWIK_SITE_ID': configData.piwik_site_id
-};
-  
-  //dict['KEY_HIGH_CONTRAST'] = configData['KEY_HIGH_CONTRAST'];
-
-  // Send to watchapp
-  Pebble.sendAppMessage(dict, function() {
-    console.log('Send successful: ' + JSON.stringify(dict));
-  }, function() {
-    console.log('Send failed!');
-  });
-});
-
-// Get AppMessage events
-Pebble.addEventListener('appmessage', function(e) {
-  // Get the dictionary from the message
-  var dict = e.payload;
-
-  console.log('Got message: ' + JSON.stringify(dict));
-});
-
-/*
-    // Load any previously saved configuration, if available
-    if(localStorage['piwik_url']) {
-      piwik_url.value = localStorage['piwik_url'];
+    // Show the raw response if parsing failed
+    if (e.failed) {
+      console.log(e.response);
     }
-    if(localStorage['piwik_site_id']) {
-      piwik_site_id.value = localStorage['piwik_site_id'];
-    }
-    if(localStorage['piwik_auth']) {
-      piwik_auth.value = localStorage['piwik_auth'];
-    }
-*/
+  }
+);
+
 
 /** Code **/
 
@@ -86,7 +49,7 @@ console.log(JSON.stringify(options));
 //var url = 'https://'+piwik_url+
 //      '/?module=API&method=Referrers.getKeywords&idSite=' + piwik_site_id + '&date=yesterday&period=day&format=xml&filter_limit=10&format=JSON&token_auth='+
 //      piwik_auth;
-var url = 'https://'+piwik_url+
+var url = piwik_url+
       '/?module=API&method=VisitsSummary.get&idSite=' + piwik_site_id + '&date=today&period=day&format=xml&filter_limit=10&format=JSON&token_auth='+
       piwik_auth;
 console.log(url);
@@ -109,7 +72,6 @@ ajax({
 	type: 'json', //we'll say this is a json web service so it will automatically parse the output
 },
 		function(data) {
-      var body = '' ;
       /*data.forEach(function(item) {
   			var keyword = item.label;
         var visits = item.nb_uniq_visitors;
