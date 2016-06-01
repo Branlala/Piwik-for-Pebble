@@ -19,8 +19,8 @@ var options = Settings.option();
 console.log(JSON.stringify(options));
 
 var url = options.piwik_url+
-      '/?module=API&method=VisitsSummary.get&idSite=' + options.piwik_site_id + '&date=today&period=day&format=xml&filter_limit=10&format=JSON&token_auth='+
-      options.piwik_auth;
+      '/?module=API&idSite=' + options.piwik_site_id + '&format=JSON&token_auth=' + options.piwik_auth +
+    '&method=Live.getCounters&lastMinutes=1440';
 console.log(url);
 
 

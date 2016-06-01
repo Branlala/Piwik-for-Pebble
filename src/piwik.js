@@ -15,10 +15,10 @@ function buildToday(url, main) {
       
       main.subtitle('Today');
       main.body(
-        'NB Un.Vi  : ' + data.nb_uniq_visitors + '\n' +
-        'NB Visits : ' + data.nb_visits + '\n' +
-        'NB Actions: ' + data.nb_actions + '\n' +
-        'Avg Time : ' + data.avg_time_on_site + ' (s)\n'
+        'NB Visits : ' + data[0].visits + '\n' +
+        'NB Actions: ' + data[0].actions + '\n' +
+        'NB Visitors : ' + data[0].visitors + '\n' +
+        'NB Converted: ' + data[0].visitsConverted + '\n'
       );
 		},
 		function (err) {
