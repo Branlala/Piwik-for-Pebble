@@ -6,8 +6,10 @@
 
 var UI = require('ui');
 var Vector2 = require('vector2');
-var ajax = require('ajax');
 var Settings = require('settings');
+var piwik = require('./piwik');
+
+var version = '1.0';
 
 /** Configuration **/
 
@@ -66,37 +68,15 @@ var main = new UI.Card({
 
 main.show();
 
+piwik.buildToday(url,main);
 
-ajax({
-	url: url,
-	type: 'json', //we'll say this is a json web service so it will automatically parse the output
-},
-		function(data) {
-      /*data.forEach(function(item) {
-  			var keyword = item.label;
-        var visits = item.nb_uniq_visitors;
-        body += keyword + ': ' + visits + '\n';
-      });
-      main.body(body);*/
-      
-      main.body(
-        'NB Un.Vi  : ' + data.nb_uniq_visitors + '\n' +
-        'NB Visits : ' + data.nb_visits + '\n' +
-        'NB Actions: ' + data.nb_actions + '\n' +
-        'Avg Time : ' + data.avg_time_on_site + ' (s)\n'
-      );
-		},
-		function (err) {
-			console.log("AJAX Error: " + err); //It is strongly recommend to pass a second parameter in case there is an error
-		});
-
-main.on('click', 'up', function(e) {
+main.on('click', 'down', function(e) {
   var menu = new UI.Menu({
     sections: [{
       items: [{
-        title: 'Pebble.js',
-        icon: 'images/menu_icon.png',
-        subtitle: 'Can do Menus'
+        title: ' for Pebble',
+        icon: 'images/icone',
+        subtitle: 'Today'
       }, {
         title: 'Second Item',
         subtitle: 'Subtitle Text'
@@ -110,6 +90,9 @@ main.on('click', 'up', function(e) {
   menu.on('select', function(e) {
     console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex);
     console.log('The item is titled "' + e.item.title + '"');
+    if (e.itemIndex === 0 && e.sectionIndex === 0){
+      
+    }
   });
   menu.show();
 });
@@ -152,7 +135,7 @@ main.on('click', 'select', function(e) {
   wind.show();
 });
 
-main.on('click', 'down', function(e) {
+main.on('click', 'up', function(e) {
   var card = new UI.Card();
   card.title('A Card');
   card.subtitle('Is a Window');
