@@ -92,11 +92,13 @@
     var piwik_url = document.getElementById('piwik_url');
     var piwik_site_id = document.getElementById('piwik_site_id');
     var piwik_auth = document.getElementById('piwik_auth');
+    var saved = document.getElementById('submit_button');
  
     var options = {
       'piwik_url': piwik_url.value,
       'piwik_site_id': piwik_site_id.value,
       'piwik_auth': piwik_auth.value,
+      'saved': saved.value,
       'p4p_version' : $_GET('appversion')
     };
 
