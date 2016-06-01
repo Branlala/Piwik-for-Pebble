@@ -79,14 +79,17 @@ console.log(piwik_site_id);
 var piwik_auth = Settings.option('piwik_auth');
 console.log(piwik_auth);
 
-//var myPiwikAuthToken = '067752aeaee170f4c9851f5b50981d25';
-//var siteID = '2';
-var url = 'https://'+piwik_url+
-      '/?module=API&method=Referrers.getKeywords&idSite=' + piwik_site_id + '&date=yesterday&period=day&format=xml&filter_limit=10&format=JSON&token_auth='+
-      piwik_auth;
+
+var options = Settings.option();
+console.log(JSON.stringify(options));
+
+//var url = 'https://'+piwik_url+
+//      '/?module=API&method=Referrers.getKeywords&idSite=' + piwik_site_id + '&date=yesterday&period=day&format=xml&filter_limit=10&format=JSON&token_auth='+
+//      piwik_auth;
 var url = 'https://'+piwik_url+
       '/?module=API&method=VisitsSummary.get&idSite=' + piwik_site_id + '&date=today&period=day&format=xml&filter_limit=10&format=JSON&token_auth='+
       piwik_auth;
+console.log(url);
 
 
 var main = new UI.Card({
