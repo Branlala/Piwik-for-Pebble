@@ -5,9 +5,11 @@
  */
 
 var UI = require('ui');
-var Vector2 = require('vector2');
 var Settings = require('settings');
 var piwik = require('./piwik');
+var Feature = require('platform/feature');
+
+console.log(Feature.resolution);
 
 var version = '1.0';
 
@@ -38,7 +40,7 @@ var main = new UI.Card({
 
 // Set a configurable with just the close callback
 Settings.config(
-  { url: 'https://techan.fr/wp-content/piwik-for-pebble/config/index.html' },
+  { url: 'https://techan.fr/wp-content/piwik-for-pebble/config/index.html?=appversion'+version },
   function(e) {
     console.log('closed configurable');
 
@@ -65,22 +67,7 @@ Settings.config(
 
 /** Code **/
 
-/*
-var piwik_url = Settings.option('piwik_url');
-console.log(piwik_url);
-var piwik_site_id = Settings.option('piwik_site_id');
-console.log(piwik_site_id);
-var piwik_auth = Settings.option('piwik_auth');
-console.log(piwik_auth);
-*/
-
-//var url = 'https://'+piwik_url+
-//      '/?module=API&method=Referrers.getKeywords&idSite=' + piwik_site_id + '&date=yesterday&period=day&format=xml&filter_limit=10&format=JSON&token_auth='+
-//      piwik_auth;
-
-
 if (options.p4p_version == version) {  
-  main.show();
   
   var main = new UI.Card({
     title: ' for Pebble',
@@ -91,7 +78,11 @@ if (options.p4p_version == version) {
     bodyColor: '#9a0036' // Hex colors
   });
 
+  main.show();
+  
   piwik.buildToday(url,main);
+  
+  main.show();
   
   main.on('click', 'down', function(e) {
     var menu = new UI.Menu({
@@ -121,41 +112,28 @@ if (options.p4p_version == version) {
   });
   
   main.on('click', 'select', function(e) {
-    var wind = new UI.Window({
-      backgroundColor: 'black'
-    });
-    var radial = new UI.Radial({
-      size: new Vector2(140, 140),
-      angle: 0,
-      angle2: 300,
-      radius: 20,
-      backgroundColor: 'cyan',
-      borderColor: 'celeste',
-      borderWidth: 1,
-    });
+     var url = options.piwik_url+
+        '/?module=API&method=ImageGraph.get&idSite=' + 
+         options.piwik_site_id + 
+         '&apiModule=VisitsSummary&apiAction=get&token_auth=' +
+         options.piwik_auth + 
+         '&graphType=horizontalBar&period=month&date=today&width=500&height=250';
+      
+     var main = new UI.Card({
+       title: ' for Pebble',
+       icon: 'images/icone',
+       body: 'Loading ...',
+       subtitle: 'Today',
+       subtitleColor: 'indigo', // Named colors
+       bodyColor: '#9a0036' // Hex colors
+     });
     
-    var textfield = new UI.Text({
-      size: new Vector2(140, 60),
-      font: 'gothic-24-bold',
-      text: 'Dynamic\nWindow',
-      textAlign: 'center'
-    });
-    var windSize = wind.size();
-    // Center the radial in the window
-    var radialPos = radial.position()
-        .addSelf(windSize)
-        .subSelf(radial.size())
-        .multiplyScalar(0.5);
-    radial.position(radialPos);
-    // Center the textfield in the window
-    var textfieldPos = textfield.position()
-        .addSelf(windSize)
-        .subSelf(textfield.size())
-        .multiplyScalar(0.5);
-    textfield.position(textfieldPos);
-    wind.add(radial);
-    wind.add(textfield);
-    wind.show();
+      main.show();
+      
+      piwik.buildVisitsGraph(url,main);
+      
+      main.show();
+    
   });
   
   main.on('click', 'up', function(e) {
