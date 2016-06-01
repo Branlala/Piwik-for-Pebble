@@ -13,6 +13,7 @@ function buildToday(url, main) {
       });
       main.body(body);*/
       
+      main.subtitle('Today');
       main.body(
         'NB Un.Vi  : ' + data.nb_uniq_visitors + '\n' +
         'NB Visits : ' + data.nb_visits + '\n' +

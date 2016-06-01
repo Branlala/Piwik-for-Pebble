@@ -7,10 +7,6 @@
 var UI = require('ui');
 var Settings = require('settings');
 var piwik = require('./piwik');
-var Feature = require('platform/feature');
-
-console.log(Feature.resolution);
-
 var version = '1.0';
 
 /** Configuration **/
@@ -42,22 +38,17 @@ main.show();
 
 // Set a configurable with just the close callback
 Settings.config(
-  { url: 'https://techan.fr/wp-content/piwik-for-pebble/config/index.html?=appversion'+version },
+  { url: 'https://techan.fr/wp-content/piwik-for-pebble/config/index.html?appversion='+version },
   function(e) {
     console.log('closed configurable');
 
     // Show the parsed response
     console.log(JSON.stringify(e.options));
-    var main = new UI.Card({
-      title: ' for Pebble',
-      icon: 'images/icone',
-      body: 'You can now reload the app.',
-      subtitle: 'Settings Applied',
-      subtitleColor: 'indigo', // Named colors
-      bodyColor: '#9a0036' // Hex colors
-    });
+    if(e.options.saved == 'SAVE') {
+      main.subtitle('Settings Applied');
+      main.body('You can now reload the app.');
+    }
     
-    main.show();
 
     // Show the raw response if parsing failed
     if (e.failed) {
@@ -69,32 +60,9 @@ Settings.config(
 
 /** Code **/
 
-if (options.p4p_version == version) {  
-  
-  var main = new UI.Card({
-    title: ' for Pebble',
-    icon: 'images/icone',
-    body: 'Loading ...',
-    subtitle: 'Today',
-    subtitleColor: 'indigo', // Named colors
-    bodyColor: '#9a0036' // Hex colors
-  });
-
-  main.show();
-  
+if (options.p4p_version == version) {
   piwik.buildToday(url,main);
-  
-  main.show();
-  
 } else {
-    var main = new UI.Card({
-    title: ' for Pebble',
-    icon: 'images/icone',
-    body: 'Please, go to app\'s settings and fill your Piwik server informations.',
-    //subtitle: 'Missing parameters',
-    subtitleColor: 'indigo', // Named colors
-    bodyColor: '#9a0036' // Hex colors
-  });
-  
-  main.show();
+  main.subtitle('');
+  main.body('Please, go to app\'s settings and fill your Piwik server informations.');
 }
