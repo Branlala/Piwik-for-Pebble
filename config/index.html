@@ -33,7 +33,7 @@
       <div class='item-container-content'>
         <label class='item'>
           URL
-          <input id='piwik_url' type='text' class='' value='https://piwik.mydomain.net'>
+          <input id='piwik_url' type='text' class='' placeholder='https://piwik.mydomain.net'>
         </label>
       </div>
       <div class='item-container-footer'>
@@ -46,7 +46,7 @@
       <div class='item-container-content'>
         <label class='item'>
           Site ID
-          <input id='piwik_site_id' type='text' class='' value='1'>
+          <input id='piwik_site_id' type='text' class='' placeholder='1'>
         </label>
       </div>
       <div class='item-container-footer'>
@@ -59,7 +59,7 @@
       <div class='item-container-content'>
         <label class='item'>
           Auth token
-          <input id='piwik_auth' type='text' class='' value='xxxxxxx'>
+          <input id='piwik_auth' type='text' class='' placeholder='xxxxxxx'>
         </label>
       </div>
       <div class='item-container-footer'>
@@ -73,6 +73,22 @@
       </div>
     </div>
   </body>
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["setDomains", ["*.techan.fr","*.tech.aldanet.fr"]]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//stats.techan.fr/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//stats.techan.fr/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
   <script>
   function $_GET(param) {
   	var vars = {};
