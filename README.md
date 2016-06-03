@@ -1,4 +1,4 @@
-# Piwik-for-Pebble
+# ![logo](https://www.filepicker.io/api/file/ss8NivKSR3iLzZyP2MfC) Piwik-for-Pebble
 
 
 Simple app that display Piwik daily statistics for a given website. There's currently only one screen that displays website's visits summary. More screen with more stats will come next ! :-) 
