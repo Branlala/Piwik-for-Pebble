@@ -3,7 +3,7 @@
     "capabilities": [
         "configurable"
     ],
-    "companyName": "raphael.charrat@aldanet.fr",
+    "companyName": "MrRaph_",
     "longName": "Piwik for Pebble",
     "projectType": "pebblejs",
     "resources": {
@@ -39,7 +39,9 @@
     "sdkVersion": "3",
     "shortName": "P4P",
     "targetPlatforms": [
-        "aplite"
+        "aplite",
+        "basalt",
+        "chalk"
     ],
     "uuid": "461735a4-95ee-4f0e-be0a-a59b7f59623f",
     "versionCode": 1,
